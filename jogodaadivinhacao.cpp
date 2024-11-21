@@ -1,4 +1,7 @@
 #include<iostream>
+#include<cstdlib>
+#include<ctime>
+
 using namespace std;
 
 int main() {
@@ -7,7 +10,12 @@ int main() {
 	cout << "******************************************" << endl;
 
 	cout << "Adivinhe o numero secreto entre 1 e 100." << endl;
-        const int NUMERO_SECRETO = 32;
+
+	srand(time(NULL));
+        const int NUMERO_SECRETO = rand() % 100;
+
+	cout << "NA: " << NUMERO_SECRETO << endl;
+
         bool errou = true;
         int tentativas = 0;
 	double pontos = 1000;
