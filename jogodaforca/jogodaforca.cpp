@@ -3,9 +3,11 @@
 #include<map>
 #include<vector>
 #include<fstream>
+#include<ctime>
+#include<cstdlib>
 using namespace std;
 
-const string PALAVRA_SECRETA = "MELANCIA";
+string PALAVRA_SECRETA = "MELANCIA";
 map<char, bool> chutou;
 vector<char> chutes_errados;
 
@@ -74,22 +76,31 @@ void chuta() {
 	cout << endl;
 }
 
-void le_arquivo() {
+vector<string> le_arquivo() {
 	ifstream arquivo;
 	arquivo.open("palavras.txt");
 	int qtd_palavras;
 	arquivo >> qtd_palavras;
-	cout << "O arquivo possui " << qtd_palavras << " palavras." << endl;
+	vector<string> palavras_arquivo;
 	for(int i = 0; i < qtd_palavras; i++) {
 		string palavra_lida;
 		arquivo >> palavra_lida;
-		cout << "Na linha " << i << " : " << palavra_lida << endl;
+		palavras_arquivo.push_back(palavra_lida);
 	}
+	return palavras_arquivo;
+}
+
+void sorteia_palavra() {
+	vector<string> palavras = le_arquivo();
+	srand(time(NULL));
+	int indice_sorteado = rand() % palavras.size();
+	PALAVRA_SECRETA = palavras[indice_sorteado];
 }
 
 int main() {
 	imprime_cabecalho();
 	le_arquivo();
+	sorteia_palavra();
 	while(nao_acertou() && nao_enforcou()) {
 		imprime_erros();
 		imprime_acertos();
