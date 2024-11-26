@@ -78,16 +78,23 @@ void chuta() {
 
 vector<string> le_arquivo() {
 	ifstream arquivo;
-	arquivo.open("palavras.txt");
-	int qtd_palavras;
-	arquivo >> qtd_palavras;
-	vector<string> palavras_arquivo;
-	for(int i = 0; i < qtd_palavras; i++) {
-		string palavra_lida;
-		arquivo >> palavra_lida;
-		palavras_arquivo.push_back(palavra_lida);
+        arquivo.open("palavras.txt");
+	if (arquivo.is_open()) {
+		int qtd_palavras;
+		arquivo >> qtd_palavras;
+		vector<string> palavras_arquivo;
+		for(int i = 0; i < qtd_palavras; i++) {
+			string palavra_lida;
+			arquivo >> palavra_lida;
+			palavras_arquivo.push_back(palavra_lida);
+		}
+		arquivo.close();
+		return palavras_arquivo;
 	}
-	return palavras_arquivo;
+	else {
+		cout << "Nao foi possivel acessar o banco de palavras" << endl;
+		exit(0); // Para a execucao do programa.
+	}
 }
 
 void sorteia_palavra() {
