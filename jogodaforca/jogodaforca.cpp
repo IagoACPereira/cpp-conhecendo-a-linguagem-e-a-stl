@@ -2,6 +2,7 @@
 #include<string>
 #include<map>
 #include<vector>
+#include<fstream>
 using namespace std;
 
 const string PALAVRA_SECRETA = "MELANCIA";
@@ -23,16 +24,10 @@ bool nao_acertou() {
 			return true;
 		}
 	}
-	cout << "Fim de jogo!" << endl;
-	cout << "Palavra secreta: " << PALAVRA_SECRETA << endl;
-	cout << "Parabens voce venceu o jogo" << endl;
 	return false;
 }
 
 bool nao_enforcou() {
-	cout << "Fim de jogo!" << endl;
-	cout << "Palavra secreta: " << PALAVRA_SECRETA << endl;
-	cout << "Infelizmente voce perdeu o jogo" << endl;
 	return chutes_errados.size() < 5;
 }
 
@@ -79,12 +74,34 @@ void chuta() {
 	cout << endl;
 }
 
+void le_arquivo() {
+	ifstream arquivo;
+	arquivo.open("palavras.txt");
+	int qtd_palavras;
+	arquivo >> qtd_palavras;
+	cout << "O arquivo possui " << qtd_palavras << " palavras." << endl;
+	for(int i = 0; i < qtd_palavras; i++) {
+		string palavra_lida;
+		arquivo >> palavra_lida;
+		cout << "Na linha " << i << " : " << palavra_lida << endl;
+	}
+}
+
 int main() {
 	imprime_cabecalho();
+	le_arquivo();
 	while(nao_acertou() && nao_enforcou()) {
 		imprime_erros();
 		imprime_acertos();
 		chuta();
+	}
+	cout << "Fim de jogo!" << endl;
+        cout << "Palavra secreta: " << PALAVRA_SECRETA << endl;
+	if (!nao_acertou()) {
+		cout << "Parabens! Voce venceu o jogo" << endl;
+	}
+	else {
+		cout << "Infelizmente voce perdeu! tente novamente" << endl;
 	}
 	return 0;
 }
